@@ -1,0 +1,80 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+    <h1>PROFESORES FISI</h1>
+
+    <input type="text"  class="form-control filtrar" id="txt-buscar" placeholder="Buscar Profesor">
+    {{articulos_a}}
+    <div id="accordion">
+    {% for profesor in profesores_t %}
+        {% for p in profesores %}
+            {% if p.id == profesor.profesor %}
+        <div class="card buscar" attr-name="{{p.nombre}}" >
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{profesor.profesor}}" aria-controls="collapseOne">
+                {{p.nombre}}
+              </button>
+            </h5>
+            </div>
+          {% endif %}
+        {% endfor %}
+      
+          <div id="collapse{{profesor.profesor}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                
+                <p>Total Citas: <b>{{profesor.total}}</b></p>
+               <table class="table table-hover">
+                   <thead>
+                       <tr>
+                           <th>Artículo</th>
+                            <th>Citas</th>
+                            <th>Año</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                    {% for articulo in articulos %}  
+                        {% if articulo.profesor.id == profesor.profesor %}             
+                            <tr>
+                                <td>{{articulo.nombre}}</td>
+                                <td>{{articulo.citas}}</td>
+                                <td>{{articulo.anio}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                   </tbody>
+               </table>
+
+
+                
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        var jsFiltrar = document.querySelectorAll('.filtrar');
+        var jsBuscar = document.querySelectorAll('.buscar');
+        $(jsFiltrar).keyup(function () {
+            var rex = new RegExp($(this).val(),'i');
+            $(jsBuscar).hide();
+            $(jsBuscar).filter(function () {
+                return rex.test($(this).attr("attr-name"));
+            }).show();
+        });
+
+        {% for a in articulos_a %}
+            console.log("hola");
+        {% endfor %}
+
+    </script>
+</body>
+</html>
